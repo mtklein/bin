@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+#set -x
+
+while read line
+do
+    trimmed=$(echo $line | grep '//!' | sed 's/\/\/!//g')
+    if [ -z "$trimmed" ]; then
+        exit 0;
+    fi
+    $trimmed
+done < $1

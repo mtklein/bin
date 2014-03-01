@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -e
+
+tools/xsan_build address -C out/Debug $1
+if [ $1 -a $1 != "everything" ]; then
+    out/Debug/$@
+fi
