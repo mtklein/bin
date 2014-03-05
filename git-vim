@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec vim $(git s)
+exec vim $(git diff --name-only origin/master)
