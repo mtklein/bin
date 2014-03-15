@@ -24,15 +24,18 @@ def safe_divide(x, y):
 
 total_b, total_a = 0, 0
 ratio_products = 1.0
+maximum = 0
 for label in common:
   total_b += b[label]
   total_a += a[label]
   ratio = safe_divide(b[label], a[label])
+  maximum = max(ratio, maximum)
   if ratio != float('inf'):
       ratio_products *= ratio
   print '%.2g %s %g %g' % (ratio, label, a[label], b[label])
 
 mean = safe_divide(total_b, total_a)
 geomean = ratio_products ** (1.0 / len(common))
-print 'mean %.2g' % mean
-print 'geomean %.2g' % geomean
+print '999 geomean  %.2g' % mean
+print '999 arithmean %.2g' % geomean
+print '999 maximum %.2g' % maximum
