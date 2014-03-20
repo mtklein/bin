@@ -20,4 +20,5 @@ git checkout $BRANCH
 ninja -C out/Release $1
 out/Release/$@ > $BRANCH.log
 
-compare $CLEAN.log $BRANCH.log | sort -g | column -t
+#compare $CLEAN.log $BRANCH.log | sort -g | column -t
+compare $CLEAN.log $BRANCH.log | grep summary
