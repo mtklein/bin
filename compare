@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#coding=utf-8
 
 import sys
 
@@ -38,5 +39,5 @@ for label in common:
 
 mean = safe_divide(total_a, total_b)
 geomean = ratio_products ** (1.0 / len(common))
-print 'summary: %3.1fx - (A %3.1fx, G %3.1fx) - %3.1fx' % (
+print 'summary: ≥%3.1fx (A %3.1fx, G %3.1fx) ≤%3.1fx' % (
         minimum, mean, geomean, maximum)
