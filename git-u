@@ -3,8 +3,5 @@
 set -e
 set -x
 
-message="$1"
-shift
-
-git commit -m "$message" $@
-git cl upload -t "$message"
+git commit -am "$@"
+git cl upload -t "$@"
