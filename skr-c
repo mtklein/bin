@@ -7,4 +7,4 @@ ninja -C out/Release $1
 out/Release/$@ > baseline.log
 out/Release/$@ --skr > skr.log
 
-compare skr.log baseline.log
+compare baseline.log skr.log
