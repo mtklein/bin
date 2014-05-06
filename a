@@ -2,7 +2,7 @@
 
 set -e
 
-tools/xsan_build address -C out/Debug $1
+tools/xsan_build address BUILDTYPE=Debug $1
 if [ $1 -a $1 != "everything" ]; then
     env ASAN_OPTIONS=detect_leaks=1 out/Debug/$@ 2>&1 >asan.log || cat asan.log | asan_symbolize
 fi
