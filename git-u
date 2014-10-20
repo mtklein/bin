@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -e
-set -x
-
-git commit -am "$@"
-git cl upload -t "$@"

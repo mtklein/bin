@@ -4,6 +4,7 @@ set -e
 
 BRANCH=$(git branch | grep \* | cut -d" "  -f 2)
 CLEAN=${CLEAN-clean}
+SAMPLES=100
 
 if [ $BRANCH == $CLEAN ]; then
     echo "Comparing $BRANCH to itself."
@@ -12,13 +13,12 @@ fi
 
 git checkout $CLEAN
 ./gyp_skia >/dev/null
-ninja -C out/Release $1
-out/Release/$@ > $CLEAN.log
+ninja -C out/Release nanobench
+out/Release/nanobench $@ --samples $SAMPLES -v 2> $CLEAN.log
 
 git checkout $BRANCH
 ./gyp_skia >/dev/null
-ninja -C out/Release $1
-out/Release/$@ > $BRANCH.log
+ninja -C out/Release nanobench
+out/Release/nanobench $@ --samples $SAMPLES -v 2> $BRANCH.log
 
-#compare $CLEAN.log $BRANCH.log | sort -g | column -t
-compare $CLEAN.log $BRANCH.log | grep summary
+compare $CLEAN.log $BRANCH.log

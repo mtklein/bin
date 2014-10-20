@@ -1,0 +1,3 @@
+#!/bin/sh
+
+ssh -o UserKnownHostsFile=/dev/null -o CheckHostIP=no -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -A -p 22 default@$@

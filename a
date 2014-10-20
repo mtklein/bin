@@ -1,8 +1,14 @@
 #!/bin/sh
 
 set -e
+set -x
 
-tools/xsan_build address BUILDTYPE=Debug $1
-if [ $1 -a $1 != "everything" ]; then
-    env ASAN_OPTIONS=detect_leaks=1 out/Debug/$@ 2>&1 >asan.log || cat asan.log | asan_symbolize
-fi
+DEVICE=${DEVICE-nexus_5}
+MODE=${MODE-Release}
+
+platform_tools/android/bin/adb_push_if_needed resources/ /data/local/tmp/resources &
+platform_tools/android/bin/adb_push_if_needed skps/ /data/local/tmp/skps &
+platform_tools/android/bin/android_ninja -d $DEVICE -t $MODE $1 &
+wait
+
+time platform_tools/android/bin/android_run_skia -d $DEVICE -t $MODE $@ -i /data/local/tmp/resources --skps /data/local/tmp/skps
