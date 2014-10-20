@@ -5,5 +5,5 @@ set -e
 ./gyp_skia >/dev/null
 ninja -C out/Release $1
 if [ $1 -a $1 != "everything" ]; then
-    /usr/bin/time catchsegv out/Release/$@
+    /usr/bin/time out/Release/$@
 fi
