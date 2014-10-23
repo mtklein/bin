@@ -7,4 +7,4 @@ ninja -C out/Release nanobench >/dev/null
 
 out/Release/nanobench $@ --match skp --config nonrendering 8888 -v 2> benchrp.log
 
-summarize benchrp.log
+summarize baseline.log benchrp.log
