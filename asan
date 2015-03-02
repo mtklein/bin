@@ -1,9 +1,0 @@
-#!/bin/sh
-
-set -e
-
-tools/xsan_build address BUILDTYPE=Debug $1
-if [ $1 -a $1 != "everything" ]; then
-    env ASAN_OPTIONS=detect_leaks=1 LSAN_OPTIONS=suppressions=tools/lsan.supp out/Debug/$@ 2>&1 | tee asan.log
-    cat asan.log | asan_symbolize
-fi

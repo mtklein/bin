@@ -1,8 +1,0 @@
-#!/bin/sh
-
-set -e
-
-tools/xsan_build thread BUILDTYPE=Release $1
-if [ $1 -a $1 != "everything" ]; then
-    env TSAN_OPTIONS=suppressions=tools/tsan.supp catchsegv out/Release/$@
-fi
