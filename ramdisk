@@ -3,7 +3,7 @@
 set -x
 set -e
 
-diskutil erasevolume HFS+ "RAM" `hdiutil attach -nomount ram://41943040`
+diskutil erasevolume HFS+ "RAM" `hdiutil attach -nomount ram://83886080`
 
 mkdir /Volumes/RAM/ccache
 mkdir /Volumes/RAM/skia_out
