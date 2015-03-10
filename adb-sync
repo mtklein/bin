@@ -1,0 +1,31 @@
+#!/bin/bash
+
+set -e
+#set -x
+
+# OS X doesn't have md5sum, but it has md5, and we can fake md5sum with that.
+if [ `uname` == "Darwin" ]; then
+    function md5sum {
+        md5 -q $1
+    }
+fi
+
+function sync_pull {
+    local src=$1  # We call ourself recursively.  Without 'local' these would keep growing.
+    local dst=$2
+
+    src_md5=`adb shell md5 $src`  # If this works, it was a file.  If not, a directory.
+    if [[ ${src_md5:0:14} == "could not read" ]]; then
+        for kid in `adb shell ls $src`; do
+            kid=${kid//[[:space:]]/}   # Trim whitespace (typically, \r) from listing.
+            sync_pull $src/$kid $dst/$kid
+        done
+    else
+        src_md5=${src_md5:0:32}
+        # If we have the file already and its MD5 matches the one on device, no need to pull it.
+        [ -e $dst ] && [ `md5sum $dst` == $src_md5 ] || \
+            (printf "pulling $src "; adb pull $src $dst)
+    fi
+}
+
+sync_pull $@
