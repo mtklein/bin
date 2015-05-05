@@ -2,8 +2,6 @@
 
 set -e
 
-./gyp_skia >/dev/null
+sync-and-gyp
 ninja -C out/Release $1
-if [ $1 -a $1 != "everything" ]; then
-    /usr/bin/time out/Release/$@
-fi
+/usr/bin/time out/Release/$@
