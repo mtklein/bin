@@ -4,4 +4,4 @@ set -e
 
 sync-and-gyp
 platform_tools/android/bin/android_ninja --clang -t Release -d arm64 $1
-platform_tools/android/bin/android_run_skia -t Release -d arm64 $@
+platform_tools/android/bin/android_run_skia -s 00fb8743bb812657 -t Release -d arm64 $@
