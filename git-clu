@@ -1,5 +1,0 @@
-#!/bin/bash
-
-set -e
-
-git cl upload -t "`git log -1 --pretty=%B`"

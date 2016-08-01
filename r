@@ -2,6 +2,7 @@
 
 set -e
 
-sync-and-gyp
-ninja -C out/Release $1
-/usr/bin/time out/Release/$@
+bin/fetch-gn
+gn gen /tmp/rel '--args=is_debug=false cc="ccache clang -fcolor-diagnostics" cxx="ccache clang++ -fcolor-diagnostics"'
+ninja -C /tmp/rel $1
+/tmp/rel/$@
