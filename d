@@ -1,37 +1,31 @@
 #!/bin/bash
 
 set -e
-set -x
+#set -x
 
 BRANCH=$(git branch | grep \* | cut -d" "  -f 2)
 
 git diff > local.patch
 
 function reset {
-    git checkout .
-    git checkout $BRANCH
-    git rebase
+    git checkout -q .
+    git checkout -q $BRANCH
+    git rebase -q
     [ -s local.patch ] && git apply local.patch
     rm local.patch
 }
 trap reset EXIT
 
-git checkout .
-git checkout clean
-git rebase
-[ -s local.patch ] && git apply local.patch
-
-ninja -C out ok
-out/ok $@ png:dir=before
-
-git checkout .
-git checkout $BRANCH
-git rebase
-[ -s local.patch ] && git apply local.patch
-
-ninja -C out ok
+ninja -C out ok | grep -v Entering
 out/ok $@ png:dir=after
 
-rm local.patch
+git checkout -q .
+git checkout -q clean
+git rebase -q
+[ -s local.patch ] && git apply local.patch
+
+ninja -C out ok | grep -v Entering
+out/ok $@ png:dir=before
+
 idiff before after
 open diff.html
