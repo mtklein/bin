@@ -5,21 +5,24 @@ set -x
 
 BRANCH=$(git branch | grep \* | cut -d" "  -f 2)
 
-git stash
+git diff > local.patch
+
+git checkout .
 git checkout clean
 git rebase
-git stash apply
+git apply local.patch
 
 ninja -C out ok
 out/ok $@ png:dir=before
 
-git stash
+git checkout .
 git checkout $BRANCH
 git rebase
-git stash apply
+git apply local.patch
 
 ninja -C out ok
 out/ok $@ png:dir=after
 
+rm local.patch
 idiff before after
 open diff.html
