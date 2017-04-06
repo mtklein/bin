@@ -16,7 +16,7 @@ function reset {
 }
 trap reset EXIT
 
-ninja -C out ok | grep -v Entering
+ninja -C out ok
 out/ok $@ png:dir=after
 
 git checkout -q .
@@ -24,7 +24,7 @@ git checkout -q clean
 git rebase -q
 [ -s local.patch ] && git apply local.patch
 
-ninja -C out ok | grep -v Entering
+ninja -C out ok
 out/ok $@ png:dir=before
 
 idiff before after
