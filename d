@@ -16,16 +16,22 @@ function reset {
 }
 trap reset EXIT
 
-ninja -C out dm
-out/dm $@ -w after
+mkdir -p before/ after/
+
+ninja -C out ok
+for dst in $@; do
+    out/ok gm $dst -w after/$dst
+done
 
 git checkout -q .
 git checkout -q clean
 git rebase -q
 [ -s local.patch ] && git apply local.patch
 
-ninja -C out dm
-out/dm $@ -w before
+ninja -C out ok
+for dst in $@; do
+    out/ok gm $dst -w before/$dst
+done
 
 idiff before after
 open diff.html
