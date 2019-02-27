@@ -3,25 +3,21 @@
 set -e
 #set -x
 
-BRANCH=$(git branch | grep \* | cut -d" "  -f 2)
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+PARENT=$(git show-branch | grep '*' | grep -v "$BRANCH" | head -n1 | sed 's/.*\[\(.*\)\].*/\1/' | sed 's/[\^~].*//')
 
 function reset {
     git checkout -q $BRANCH
 }
 trap reset EXIT
 
-mkdir -p before/ after/
+git checkout -q $PARENT
+ninja -C out dm
+out/dm $@ -w $PARENT
 
-ninja -C out ok
-for dst in $@; do
-    out/ok gm $dst png:dir=after/$dst
-done
+git checkout -q $BRANCH
+ninja -C out dm
+out/dm $@ -w $BRANCH
 
-git checkout -q origin/master
-ninja -C out ok
-for dst in $@; do
-    out/ok gm $dst png:dir=before/$dst
-done
-
-idiff before after
+idiff $PARENT $BRANCH
 open diff.html
