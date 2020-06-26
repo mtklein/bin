@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+#set -x
+
+nice ninja -C out fm
+out/fm $@
