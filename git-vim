@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ $1 ]]; then
-    exec nvim $(git grep -l $@)
+    exec vim $(git grep -l $@)
 else
-    exec nvim $(git diff --name-only origin/master)
+    exec vim $(git diff --name-only origin/master)
 fi
